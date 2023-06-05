@@ -28,9 +28,9 @@ var ank = [39.9286946, 32.81890];
 var esk = [39.746789, 30.474305];
 var bur = [40.223023, 28.850525];
 
-var nokta_ank = L.marker(ank).addTo(map);
-var nokta_esk = L.marker(esk).addTo(map);
-var nokta_bur = L.marker(bur).addTo(map);
+// var nokta_ank = L.marker(ank).addTo(map);
+// var nokta_esk = L.marker(esk).addTo(map);
+// var nokta_bur = L.marker(bur).addTo(map);
 
 //    .bindPopup('Buradasınız.<br> Mustafa')
 //    .openPopup();
@@ -59,35 +59,21 @@ var ank_zoom = circle_ank.getBounds();
 var esk_zoom = circle_esk.getBounds();
 var bur_zoom = circle_bur.getBounds();
 
+function randomNumber() {
+  var num = (Math.random()*(10) + 20).toFixed(1);
+  return num;
+};
 
-circle_ank.on('mouseover', function(e){
-    e.target.setStyle(stil2);
-    nokta_ank.bindPopup('Buradasınız.<br> Ankara').openPopup();
+circle_ank.on('dblclick', function(){
+  circle_ank.bindPopup('Ankara <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
 });
 
-circle_esk.on('mouseover', function(e){
-    e.target.setStyle(stil2);
-    nokta_esk.bindPopup('Buradasınız.<br> Eskişehir').openPopup();
+circle_esk.on('dblclick', function(){
+  circle_esk.bindPopup('Eskişehir <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
 });
 
-circle_bur.on('mouseover', function(e){
-    e.target.setStyle(stil2);
-    nokta_bur.bindPopup('Buradasınız.<br> Bursa').openPopup();
-});
-
-circle_ank.on('mouseout', function(e){
-    e.target.setStyle(stil);
-    nokta_ank.closePopup();
-});
-
-circle_esk.on('mouseout', function(e){
-    e.target.setStyle(stil);
-    nokta_esk.closePopup();
-});
-
-circle_bur.on('mouseout', function(e){
-    e.target.setStyle(stil);
-    nokta_bur.closePopup();
+circle_bur.on('dblclick', function(){
+  circle_bur.bindPopup('Bursa <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
 });
 
 const eventSource = new EventSource("http://127.0.0.1:8000/sse");//FastAPI SSE endpointinizin URL'si

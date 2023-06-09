@@ -48,7 +48,7 @@ stil_a.radius = 300;
 var stil_b = {
   color:"#c0392b",
   fill:true,
-  fillColor:"#f1c40f",
+  fillColor:"#13FF00",
   fillOpacity:0.5
 };
 stil_b.radius = 500;
@@ -56,7 +56,7 @@ stil_b.radius = 500;
 var stil_c = {
   color:"#c0392b",
   fill:true,
-  fillColor:"#f1c40f",
+  fillColor:"#19FFE7",
   fillOpacity:0.5
 };
 stil_c.radius = 1000;
@@ -64,8 +64,8 @@ stil_c.radius = 1000;
 var stil2 = {
     color:"#c0392b",
     fill:true,
-    fillColor:"#2ecc71",
-    fillOpacity:0.6
+    fillColor:"#DB2F1D",
+    fillOpacity:0.9
 };
 stil2.radius = 300;
 

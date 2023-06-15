@@ -1,19 +1,18 @@
 var map = L.map('map').setView([39.739309, 30.483702], 14);
 
-//map.on('click', function(e){
+map.on('click', function(e){
     //debugger;
-
-    //$.ajax({
-      //  url: "http://127.0.0.1:8000/events/",
-      //  method: "GET",
-      //  success: function(response) {
-      //    console.log(response);
-      //  },
-      //  error: function(error) {
-      //    console.log(error);
-      //  }
-    //  });
-//});
+    $.ajax({
+        url: "http://127.0.0.1:8000/tcp",
+        method: "GET",
+        success: function(response) {
+          console.log(response);
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+});
 
 var googleBasemap = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
     attribution:"Oyet",

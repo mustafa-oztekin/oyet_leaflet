@@ -1,4 +1,4 @@
-var map = L.map('map').setView([39.739309, 30.483702], 12);
+var map = L.map('map').setView([39.739309, 30.483702], 14);
 
 //map.on('click', function(e){
     //debugger;
@@ -83,33 +83,39 @@ var a2_zoom = circle_a2.getBounds();
 var a3_zoom = circle_a3.getBounds();
 var a4_zoom = circle_a4.getBounds();
 
+// 6-7 Haziran
+
+
+
+
+
 function randomNumber() {
   var num = (Math.random()*(10) + 20).toFixed(1);
   return num;
 };
 
-circle_c.on('dblclick', function(){
+circle_c.on('click', function(){
   circle_c.bindPopup('C modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   //var sonuc = (ank[0] + esk[0]) / 2;
 });
 
-circle_b1.on('dblclick', function(){
+circle_b1.on('click', function(){
   circle_b1.bindPopup('B1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
 });
 
-circle_a1.on('dblclick', function(){
+circle_a1.on('click', function(){
   circle_a1.bindPopup('A1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
 });
 
-circle_a2.on('dblclick', function(){
+circle_a2.on('click', function(){
   circle_a2.bindPopup('A2 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
 });
 
-circle_a3.on('dblclick', function(){
+circle_a3.on('click', function(){
   circle_a3.bindPopup('A3 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
 });
 
-circle_a4.on('dblclick', function(){
+circle_a4.on('click', function(){
   circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
 });
 

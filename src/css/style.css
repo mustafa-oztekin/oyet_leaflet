@@ -6,3 +6,48 @@
     height: 100%;
     background-color: darkgray;
 }
+
+.legend-control {
+    border: 3px solid #ccc;
+    padding: 10px;
+    width: 70px;
+    background-color: #ffffff;
+    opacity: 0.8;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .legend-control ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .legend-control li {
+    margin-bottom: 10px;
+  }
+  
+  .color-box {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border: 2px solid #c0392b;
+  }
+  
+  .A {
+    background-color: #f1c40f;
+  }
+  
+  .B {
+    background-color: #13FF00;
+  }
+  
+  .C {
+    background-color: #19FFE7;
+  }
+  
+  .color-name {
+    vertical-align: middle;
+  }

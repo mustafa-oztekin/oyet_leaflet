@@ -1,18 +1,18 @@
 var map = L.map('map').setView([39.739309, 30.483702], 14);
 
-map.on('click', function(e){
+//map.on('click', function(e){
     //debugger;
-    $.ajax({
-        url: "http://127.0.0.1:8000/tcp",
-        method: "GET",
-        success: function(response) {
-          console.log(response);
-        },
-        error: function(error) {
-          console.log(error);
-        }
-      });
-});
+ //   $.ajax({
+  //      url: "http://127.0.0.1:8000/tcp",
+   //     method: "GET",
+   //     success: function(response) {
+  //        console.log(response);
+  //      },
+  //      error: function(error) {
+  //        console.log(error);
+  //      }
+  //    });
+//});
 
 var googleBasemap = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
     attribution:"Oyet",
@@ -103,19 +103,71 @@ circle_b1.on('click', function(){
 });
 
 circle_a1.on('click', function(){
-  circle_a1.bindPopup('A1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+  // circle_a1.bindPopup('A1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+  const data_a1 = {modul: "A1"};
+  $.ajax({
+    url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data_a1),
+    success: function(response) {
+      console.log("İstek başarılı: ", response);
+    },
+    error: function(xhr, status, error) {
+      console.error("İstek hatası: ", error);
+    }
+  });
 });
 
 circle_a2.on('click', function(){
-  circle_a2.bindPopup('A2 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+  // circle_a2.bindPopup('A2 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+  const data_a2 = {modul: "A2"};
+  $.ajax({
+    url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data_a2),
+    success: function(response) {
+      console.log("İstek başarılı: ", response);
+    },
+    error: function(xhr, status, error) {
+      console.error("İstek hatası: ", error);
+    }
+  });
 });
 
 circle_a3.on('click', function(){
-  circle_a3.bindPopup('A3 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+  // circle_a3.bindPopup('A3 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+  const data_a3 = {modul: "A3"};
+  $.ajax({
+    url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data_a3),
+    success: function(response) {
+      console.log("İstek başarılı: ", response);
+    },
+    error: function(xhr, status, error) {
+      console.error("İstek hatası: ", error);
+    }
+  });
 });
 
 circle_a4.on('click', function(){
-  circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+  // circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+  const data_a4 = {modul: "A4"};
+  $.ajax({
+    url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data_a4),
+    success: function(response) {
+      console.log("İstek başarılı: ", response);
+    },
+    error: function(xhr, status, error) {
+      console.error("İstek hatası: ", error);
+    }
+  });
 });
 
 const eventSource = new EventSource("http://127.0.0.1:8000/sse");//FastAPI SSE endpointinizin URL'si

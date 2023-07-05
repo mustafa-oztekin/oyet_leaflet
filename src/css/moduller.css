@@ -1,3 +1,18 @@
+table {
+    position: fixed;
+    top: 60px;
+    left: 220px;
+    width: calc(100% - 220px);
+    height: 80px;
+    border-collapse: collapse;
+  }
+  
+  td {
+    padding: 20px;
+    border: 5px solid #b0b0b0;
+  }
+
+
 *{
     font-family: 'Baloo Paaji 2', cursive;
     margin: 0;
@@ -85,7 +100,7 @@
     color: #fff;
    }
 
-
+/*
    .hover_collapse .sidebar{
     width: 70px;
    }

@@ -22,9 +22,3 @@ li_items.forEach((li_item)=>{
 
     hamburger.closest(".wrapper").classList.toggle("hover_collapse");
 })
-
-var googleBasemap = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-    attribution:"Oyet",
-    maxZoom:20,
-    subdomains:['mt0', 'mt1', 'mt2', 'mt3']
-});

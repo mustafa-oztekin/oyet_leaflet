@@ -22,3 +22,6 @@ li_items.forEach((li_item)=>{
 
     hamburger.closest(".wrapper").classList.toggle("hover_collapse");
 })
+
+const table1 = document.getElementById('table1');
+table1.style.transform = 'translate(220px, 60px)';

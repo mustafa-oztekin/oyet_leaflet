@@ -25,3 +25,24 @@ li_items.forEach((li_item)=>{
 
 const table1 = document.getElementById('table1');
 table1.style.transform = 'translate(220px, 60px)';
+
+
+
+fetch('http://127.0.0.1:8000/events')
+.then(response => response.json())
+.then(data => {
+    const tableBody = document.querySelector('#table1 tbody');
+    data.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.modul_name}</td>
+            <td>${item.fire_zone}</td>
+            <td>${item.fire_date}</td>
+            <td>${item.enlem}</td>
+            <td>${item.boylam}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+})
+.catch(error => console.error('Hata:', error));

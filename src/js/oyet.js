@@ -185,20 +185,25 @@ const eventSource = new EventSource("http://127.0.0.1:8000/sse");//FastAPI SSE e
 
 eventSource.onmessage = function(event) {
   console.log("Gelen veri:", event.data);
-  if (event.data === 'C') {
-    map.fitBounds(c_zoom);
-    circle_c.setStyle(stil2);
-    setTimeout(() => {circle_c.setStyle(stil);}, 250);
-  }
-  else if (event.data === 'B1') {
-    map.fitBounds(b1_zoom);
-    circle_b1.setStyle(stil2);
-    setTimeout(() => {circle_b1.setStyle(stil);}, 250);
-  }
-  else {
+  if (event.data === 'A1') {
     map.fitBounds(a1_zoom);
     circle_a1.setStyle(stil2);
-    setTimeout(() => {circle_a1.setStyle(stil);}, 250);
+    setTimeout(() => {circle_a1.setStyle(stil_a);}, 250);
+  }
+  else if (event.data === 'A2') {
+    map.fitBounds(a2_zoom);
+    circle_a2.setStyle(stil2);
+    setTimeout(() => {circle_a2.setStyle(stil_a);}, 250);
+  }
+  else if (event.data === 'A3') {
+    map.fitBounds(a3_zoom);
+    circle_a3.setStyle(stil2);
+    setTimeout(() => {circle_a3.setStyle(stil_a);}, 250);
+  }
+  else if (event.data === 'A4') {
+    map.fitBounds(a4_zoom);
+    circle_a4.setStyle(stil2);
+    setTimeout(() => {circle_a4.setStyle(stil_a);}, 250);
   }
   // console.log(typeof event.data);
 };

@@ -44,3 +44,41 @@ fetch('http://127.0.0.1:8000/items')
     });
 })
 .catch(error => console.error('Hata:', error));
+
+
+
+// modül ekle butonu işlev
+const addButton = document.getElementById('addButton');
+  addButton.addEventListener('click', addNewItem);
+
+  async function addNewItem() {
+    const data = {
+      "id":11,
+      "name": "rün",
+      "zone": "A",
+      "enlem": 20.123,
+      "boylam": 20.987
+    };
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error('HTTP Error ' + response.status);
+      }
+
+      const newItem = await response.json();
+      console.log('Yeni eklenen öğe:', newItem);
+
+      // Yeni eklenen öğeyi tabloya eklemek için gerekli kodları burada yazabilirsiniz
+
+    } catch (error) {
+      console.error('Hata:', error);
+    }
+  }

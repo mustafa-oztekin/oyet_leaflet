@@ -114,3 +114,28 @@ table {
    .hover_collapse .sidebar ul li a .text{
     display: none;
    }
+*/
+
+/* Buton için stil */
+.custom-button {
+    position: fixed;
+    bottom: 20px; /* Sayfanın altından 20px yukarıda olacak */
+    right: 20px; /* Sayfanın sağ kenarından 20px içeride olacak */
+    padding: 10px 30px;
+    background-color: #34c539;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  /* Butona fare üzerine gelince stil */
+  .custom-button:hover {
+    background-color: #0dff00;
+  }
+
+  /* Butona tıklandığında stil */
+  .custom-button:active {
+    background-color: #ff0000;
+  }

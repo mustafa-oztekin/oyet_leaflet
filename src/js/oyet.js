@@ -188,22 +188,22 @@ eventSource.onmessage = function(event) {
   if (event.data === 'A1') {
     map.fitBounds(a1_zoom);
     circle_a1.setStyle(stil2);
-    setTimeout(() => {circle_a1.setStyle(stil_a);}, 250);
+    setTimeout(() => {circle_a1.setStyle(stil_a);}, 500);
   }
   else if (event.data === 'A2') {
     map.fitBounds(a2_zoom);
     circle_a2.setStyle(stil2);
-    setTimeout(() => {circle_a2.setStyle(stil_a);}, 250);
+    setTimeout(() => {circle_a2.setStyle(stil_a);}, 500);
   }
   else if (event.data === 'A3') {
     map.fitBounds(a3_zoom);
     circle_a3.setStyle(stil2);
-    setTimeout(() => {circle_a3.setStyle(stil_a);}, 250);
+    setTimeout(() => {circle_a3.setStyle(stil_a);}, 500);
   }
   else if (event.data === 'A4') {
     map.fitBounds(a4_zoom);
     circle_a4.setStyle(stil2);
-    setTimeout(() => {circle_a4.setStyle(stil_a);}, 250);
+    setTimeout(() => {circle_a4.setStyle(stil_a);}, 500);
   }
   // console.log(typeof event.data);
 };

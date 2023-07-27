@@ -93,8 +93,8 @@ var a2_zoom = circle_a2.getBounds();
 var a3_zoom = circle_a3.getBounds();
 var a4_zoom = circle_a4.getBounds();
 
-// 6-7 Haziran
 
+const audioElement = document.getElementById("myAudio");
 
 
 
@@ -107,10 +107,12 @@ function randomNumber() {
 circle_c.on('click', function(){
   circle_c.bindPopup('C modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   //var sonuc = (ank[0] + esk[0]) / 2;
+  audioElement.play();
 });
 
 circle_b1.on('click', function(){
   circle_b1.bindPopup('B1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+  audioElement.pause();
 });
 
 circle_a1.on('click', function(){
@@ -186,21 +188,25 @@ const eventSource = new EventSource("http://127.0.0.1:8000/sse");//FastAPI SSE e
 eventSource.onmessage = function(event) {
   console.log("Gelen veri:", event.data);
   if (event.data === 'A1') {
+    audioElement.play();
     map.fitBounds(a1_zoom);
     circle_a1.setStyle(stil2);
     setTimeout(() => {circle_a1.setStyle(stil_a);}, 500);
   }
   else if (event.data === 'A2') {
+    audioElement.play();
     map.fitBounds(a2_zoom);
     circle_a2.setStyle(stil2);
     setTimeout(() => {circle_a2.setStyle(stil_a);}, 500);
   }
   else if (event.data === 'A3') {
+    audioElement.play();
     map.fitBounds(a3_zoom);
     circle_a3.setStyle(stil2);
     setTimeout(() => {circle_a3.setStyle(stil_a);}, 500);
   }
   else if (event.data === 'A4') {
+    audioElement.play();
     map.fitBounds(a4_zoom);
     circle_a4.setStyle(stil2);
     setTimeout(() => {circle_a4.setStyle(stil_a);}, 500);

@@ -117,7 +117,7 @@ circle_b1.on('click', function(){
 
 circle_a1.on('click', function(){
   // circle_a1.bindPopup('A1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-  const data_a1 = {modul: "A1"};
+  const data_a1 = {modul: "MA1"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
     type: "POST",
@@ -134,7 +134,7 @@ circle_a1.on('click', function(){
 
 circle_a2.on('click', function(){
   // circle_a2.bindPopup('A2 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-  const data_a2 = {modul: "A2"};
+  const data_a2 = {modul: "MA2"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
     type: "POST",
@@ -151,7 +151,7 @@ circle_a2.on('click', function(){
 
 circle_a3.on('click', function(){
   // circle_a3.bindPopup('A3 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-  const data_a3 = {modul: "A3"};
+  const data_a3 = {modul: "MA3"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
     type: "POST",
@@ -168,7 +168,7 @@ circle_a3.on('click', function(){
 
 circle_a4.on('click', function(){
   // circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-  const data_a4 = {modul: "A4"};
+  const data_a4 = {modul: "MA4"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
     type: "POST",

@@ -107,24 +107,34 @@ function randomNumber() {
 circle_c.on('click', function(){
   circle_c.bindPopup('C modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   //var sonuc = (ank[0] + esk[0]) / 2;
-  audioElement.play();
+  // audioElement.play();
 });
 
 circle_b1.on('click', function(){
   circle_b1.bindPopup('B1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-  audioElement.pause();
+  // audioElement.pause();
 });
 
+
+const circle_a1_popup = L.popup();
 circle_a1.on('click', function(){
   // circle_a1.bindPopup('A1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a1 = {modul: "MA1"};
   $.ajax({
-    url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
+    url: "http://127.0.0.1:8000/tcp",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(data_a1),
     success: function(response) {
       console.log("İstek başarılı: ", response);
+      // Cevap geldiğinde popup'ı açma işlemi
+      if (response.success) {
+        const popupContent = 'A1 modülü <br> Sıcaklık: ' + response.data;
+        circle_a1_popup.setContent(popupContent);
+        circle_a1_popup.setLatLng(circle_a1.getLatLng());
+        circle_a1_popup.openOn(map);
+        response.success = false; // Popup'ın tekrar açılmaması için
+      }
     },
     error: function(xhr, status, error) {
       console.error("İstek hatası: ", error);
@@ -132,6 +142,8 @@ circle_a1.on('click', function(){
   });
 });
 
+
+const circle_a2_popup = L.popup();
 circle_a2.on('click', function(){
   // circle_a2.bindPopup('A2 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a2 = {modul: "MA2"};
@@ -142,6 +154,14 @@ circle_a2.on('click', function(){
     data: JSON.stringify(data_a2),
     success: function(response) {
       console.log("İstek başarılı: ", response);
+      // Cevap geldiğinde popup'ı açma işlemi
+      if (response.success) {
+        const popupContent = 'A2 modülü <br> Sıcaklık: ' + response.data;
+        circle_a2_popup.setContent(popupContent);
+        circle_a2_popup.setLatLng(circle_a2.getLatLng());
+        circle_a2_popup.openOn(map);
+        response.success = false; // Popup'ın tekrar açılmaması için
+      }
     },
     error: function(xhr, status, error) {
       console.error("İstek hatası: ", error);
@@ -149,6 +169,8 @@ circle_a2.on('click', function(){
   });
 });
 
+
+const circle_a3_popup = L.popup();
 circle_a3.on('click', function(){
   // circle_a3.bindPopup('A3 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a3 = {modul: "MA3"};
@@ -159,6 +181,14 @@ circle_a3.on('click', function(){
     data: JSON.stringify(data_a3),
     success: function(response) {
       console.log("İstek başarılı: ", response);
+      // Cevap geldiğinde popup'ı açma işlemi
+      if (response.success) {
+        const popupContent = 'A3 modülü <br> Sıcaklık: ' + response.data;
+        circle_a3_popup.setContent(popupContent);
+        circle_a3_popup.setLatLng(circle_a3.getLatLng());
+        circle_a3_popup.openOn(map);
+        response.success = false; // Popup'ın tekrar açılmaması için
+      }
     },
     error: function(xhr, status, error) {
       console.error("İstek hatası: ", error);
@@ -166,6 +196,8 @@ circle_a3.on('click', function(){
   });
 });
 
+
+const circle_a4_popup = L.popup();
 circle_a4.on('click', function(){
   // circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a4 = {modul: "MA4"};
@@ -176,6 +208,14 @@ circle_a4.on('click', function(){
     data: JSON.stringify(data_a4),
     success: function(response) {
       console.log("İstek başarılı: ", response);
+      // Cevap geldiğinde popup'ı açma işlemi
+      if (response.success) {
+        const popupContent = 'A4 modülü <br> Sıcaklık: ' + response.data;
+        circle_a4_popup.setContent(popupContent);
+        circle_a4_popup.setLatLng(circle_a4.getLatLng());
+        circle_a4_popup.openOn(map);
+        response.success = false; // Popup'ın tekrar açılmaması için
+      }
     },
     error: function(xhr, status, error) {
       console.error("İstek hatası: ", error);

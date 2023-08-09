@@ -116,7 +116,77 @@ circle_b1.on('click', function(){
 });
 
 
+
+
+// 100 defa test
+
+
+let modulListesi = ["MA1", "MA2"];
+let sayac = 0;
+let sayac1 = 0;
+let maxIslemSayisi = 100;
+let interval;
+
 const circle_a1_popup = L.popup();
+const circle_a2_popup = L.popup();
+function sendRequest(name) {
+  if (sayac < maxIslemSayisi) {
+    $.ajax({
+      url: "http://127.0.0.1:8000/tcp",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ modul: name }),
+      success: function(response) {
+        sayac1++;
+        console.log("İstek başarılı: ", response);
+        if (response.success) {
+          sayac++;
+          if (name === "MA1") {
+          const popupContent = 'A1 modülü <br> Sıcaklık: ' + response.data;
+        circle_a1_popup.setContent(popupContent);
+        circle_a1_popup.setLatLng(circle_a1.getLatLng());
+        circle_a1_popup.openOn(map);
+          }
+          else {
+            const popupContent = 'A2 modülü <br> Sıcaklık: ' + response.data;
+        circle_a2_popup.setContent(popupContent);
+        circle_a2_popup.setLatLng(circle_a2.getLatLng());
+        circle_a2_popup.openOn(map);
+            }
+        }
+
+        if (sayac1 === maxIslemSayisi) {
+          console.log("Toplam başarılı işlem sayısı: ", sayac);
+          clearInterval(interval); // İşlem tamamlandığında interval'i durdur
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error("İstek hatası: ", error);
+        sayac++;
+      }
+    });
+  }
+}
+
+interval = setInterval(function() {
+  for (let i = 0; i < modulListesi.length; i++) {
+    setTimeout(function() {
+      sendRequest(modulListesi[i]);
+    }, i * 5000); // Her adımda 3 saniye bekleme
+  }
+}, 15000);
+
+// İşlemi başlat
+setTimeout(function() {
+  sendRequest(modulListesi[0]);
+}, 0); // Başlangıçta 0 saniyelik bekleme
+
+
+
+
+
+
+// const circle_a1_popup = L.popup();
 circle_a1.on('click', function(){
   // circle_a1.bindPopup('A1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a1 = {modul: "MA1"};
@@ -143,7 +213,7 @@ circle_a1.on('click', function(){
 });
 
 
-const circle_a2_popup = L.popup();
+// const circle_a2_popup = L.popup();
 circle_a2.on('click', function(){
   // circle_a2.bindPopup('A2 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a2 = {modul: "MA2"};

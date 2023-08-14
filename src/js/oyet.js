@@ -129,6 +129,9 @@ let interval;
 
 const circle_a1_popup = L.popup();
 const circle_a2_popup = L.popup();
+const circle_a3_popup = L.popup();
+const circle_a4_popup = L.popup();
+
 function sendRequest(name) {
   if (sayac < maxIslemSayisi) {
     $.ajax({
@@ -168,18 +171,18 @@ function sendRequest(name) {
   }
 }
 
-interval = setInterval(function() {
-  for (let i = 0; i < modulListesi.length; i++) {
-    setTimeout(function() {
-      sendRequest(modulListesi[i]);
-    }, i * 5000); // Her adımda 3 saniye bekleme
-  }
-}, 15000);
+//interval = setInterval(function() {
+//  for (let i = 0; i < modulListesi.length; i++) {
+//    setTimeout(function() {
+//      sendRequest(modulListesi[i]);
+//    }, i * 5000); // Her adımda 3 saniye bekleme
+//  }
+//}, 15000);
 
 // İşlemi başlat
-setTimeout(function() {
-  sendRequest(modulListesi[0]);
-}, 0); // Başlangıçta 0 saniyelik bekleme
+//setTimeout(function() {
+//  sendRequest(modulListesi[0]);
+//}, 0); // Başlangıçta 0 saniyelik bekleme
 
 
 
@@ -240,7 +243,7 @@ circle_a2.on('click', function(){
 });
 
 
-const circle_a3_popup = L.popup();
+// const circle_a3_popup = L.popup();
 circle_a3.on('click', function(){
   // circle_a3.bindPopup('A3 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a3 = {modul: "MA3"};
@@ -267,7 +270,7 @@ circle_a3.on('click', function(){
 });
 
 
-const circle_a4_popup = L.popup();
+// const circle_a4_popup = L.popup();
 circle_a4.on('click', function(){
   // circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a4 = {modul: "MA4"};

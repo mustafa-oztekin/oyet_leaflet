@@ -86,12 +86,11 @@ var circle_a2 = L.circle(A2, stil_a).addTo(map);
 var circle_a3 = L.circle(A3, stil_a).addTo(map);
 var circle_a4 = L.circle(A4, stil_a).addTo(map);
 
-var c_zoom = circle_c.getBounds();
-var b1_zoom = circle_b1.getBounds();
-var a1_zoom = circle_a1.getBounds();
-var a2_zoom = circle_a2.getBounds();
-var a3_zoom = circle_a3.getBounds();
-var a4_zoom = circle_a4.getBounds();
+
+// var a1_zoom = circle_a1.getBounds();
+// var a2_zoom = circle_a2.getBounds();
+// var a3_zoom = circle_a3.getBounds();
+// var a4_zoom = circle_a4.getBounds();
 
 
 const audioElement = document.getElementById("myAudio");
@@ -206,7 +205,7 @@ circle_a1.on('click', function(){
         circle_a1_popup.setContent(popupContent);
         circle_a1_popup.setLatLng(circle_a1.getLatLng());
         circle_a1_popup.openOn(map);
-        response.success = false; // Popup'ın tekrar açılmaması için
+       // response.success = false; // Popup'ın tekrar açılmaması için
       }
     },
     error: function(xhr, status, error) {
@@ -233,7 +232,7 @@ circle_a2.on('click', function(){
         circle_a2_popup.setContent(popupContent);
         circle_a2_popup.setLatLng(circle_a2.getLatLng());
         circle_a2_popup.openOn(map);
-        response.success = false; // Popup'ın tekrar açılmaması için
+        //response.success = false; // Popup'ın tekrar açılmaması için
       }
     },
     error: function(xhr, status, error) {
@@ -260,7 +259,7 @@ circle_a3.on('click', function(){
         circle_a3_popup.setContent(popupContent);
         circle_a3_popup.setLatLng(circle_a3.getLatLng());
         circle_a3_popup.openOn(map);
-        response.success = false; // Popup'ın tekrar açılmaması için
+       // response.success = false; // Popup'ın tekrar açılmaması için
       }
     },
     error: function(xhr, status, error) {
@@ -287,7 +286,7 @@ circle_a4.on('click', function(){
         circle_a4_popup.setContent(popupContent);
         circle_a4_popup.setLatLng(circle_a4.getLatLng());
         circle_a4_popup.openOn(map);
-        response.success = false; // Popup'ın tekrar açılmaması için
+       // response.success = false; // Popup'ın tekrar açılmaması için
       }
     },
     error: function(xhr, status, error) {
@@ -326,3 +325,66 @@ eventSource.onmessage = function(event) {
   }
   // console.log(typeof event.data);
 };
+
+
+// modül ekle butonu işlev
+const showbutc = document.getElementById('cmod');
+showbutc.addEventListener('click', function(){
+  circle_c.addTo(map);
+});
+
+// modül ekle butonu işlev
+const remove_butc = document.getElementById('cmod');
+remove_butc.addEventListener('dblclick', function(){
+  circle_c.removeFrom(map);
+});
+
+// modül ekle butonu işlev
+const showbutb = document.getElementById('bmod');
+showbutb.addEventListener('click', function(){
+  circle_b1.addTo(map);
+});
+
+// modül ekle butonu işlev
+const remove_butb = document.getElementById('bmod');
+remove_butb.addEventListener('dblclick', function(){
+  circle_b1.removeFrom(map);
+});
+
+// modül ekle butonu işlev
+const showbuta = document.getElementById('amod');
+showbuta.addEventListener('click', function(){
+  circle_a1.addTo(map);
+  circle_a2.addTo(map);
+  circle_a3.addTo(map);
+  circle_a4.addTo(map);
+});
+
+// modül ekle butonu işlev
+const remove_buta = document.getElementById('amod');
+remove_buta.addEventListener('dblclick', function(){
+  circle_a1.removeFrom(map);
+  circle_a2.removeFrom(map);
+  circle_a3.removeFrom(map);
+  circle_a4.removeFrom(map);
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const addButton = document.getElementById("addButton");
+  const modal = document.getElementById("myModal");
+  
+  addButton.addEventListener("click", function() {
+    modal.style.display = "flex"; // Modalı göster
+  });
+
+  // Tıklamalı butonlara tıklanınca
+  const moduleButtons = document.querySelectorAll(".module-button");
+  moduleButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      const selectedValue = button.getAttribute("data-value");
+      console.log("Seçiminiz: " + selectedValue);
+      modal.style.display = "none"; // Modalı gizle
+    });
+  });
+});

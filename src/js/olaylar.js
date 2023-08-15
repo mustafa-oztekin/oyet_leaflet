@@ -31,6 +31,8 @@ table1.style.transform = 'translate(220px, 60px)';
 fetch('http://127.0.0.1:8000/events')
 .then(response => response.json())
 .then(data => {
+    // Verileri büyükten küçüğe sıralayın
+    data.sort((a, b) => b.id - a.id);
     const tableBody = document.querySelector('#table1 tbody');
     data.forEach(item => {
         const row = document.createElement('tr');

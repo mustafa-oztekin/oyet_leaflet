@@ -369,14 +369,63 @@ remove_buta.addEventListener('dblclick', function(){
   circle_a4.removeFrom(map);
 });
 
+let modal;
 
 document.addEventListener("DOMContentLoaded", function() {
   const addButton = document.getElementById("addButton");
-  const modal = document.getElementById("myModal");
+  modal = document.getElementById("myModal");
   
   addButton.addEventListener("click", function() {
     modal.style.display = "flex"; // Modalı göster
   });
+
+
+
+
+
+  const customCircle = L.circle([39.738678, 30.488098], stil_a);
+
+  let isMoving = false;
+  let yerlestir = false;
+
+
+  
+map.on('mousemove', (e) => {
+    if (isMoving) {
+      const { clientX, clientY } = e.originalEvent;
+      const { left, top } = map.getContainer().getBoundingClientRect();
+      const x = (clientX - left) - (customCircle._radius / 2);
+      const y = (clientY - top) - (customCircle._radius / 2);
+      customCircle.setLatLng(map.containerPointToLatLng(L.point(x, y)));
+    }
+});
+
+
+
+let circles = []; // Çemberlerin bilgilerini saklayacağımız bir dizi
+
+map.on('click', (e) => {
+  if (yerlestir) {
+    const clickedLatLng = e.latlng;
+
+    // Yeni çember oluşturup nesne içinde sakla
+    const newCircle = L.circle(clickedLatLng, stil_a).addTo(map);
+
+    circles.push({ circle: newCircle, isMoving: true }); // Yeni çemberi diziye ekle
+    customCircle.removeFrom(map);
+    yerlestir = false;
+  }
+
+    // console.log(Boolean(circles[2]));
+    if (Boolean(circles[1])) {
+      console.log(circles[1].circle.getLatLng());
+    }
+    if (modal.style.display === "flex") {
+      modal.style.display = "none";
+    }
+    if (isMoving) {
+      isMoving = false; } // Fare hareketini durdur
+});
 
   // Tıklamalı butonlara tıklanınca
   const moduleButtons = document.querySelectorAll(".module-button");
@@ -384,7 +433,39 @@ document.addEventListener("DOMContentLoaded", function() {
     button.addEventListener("click", function() {
       const selectedValue = button.getAttribute("data-value");
       console.log("Seçiminiz: " + selectedValue);
+      if (selectedValue === 'A') {
+        // customCircle = L.circle([39.738678, 30.488098], stil_a).addTo(map);
+        customCircle.addTo(map);
+        yerlestir = true;
+        isMoving = true;
+
+        // click içindekilerin birazı buraya alınacak
+
+      }
       modal.style.display = "none"; // Modalı gizle
     });
   });
 });
+
+
+
+// modüller statik olarak olmayacak, dinamik olarak veritabanından gelecek ve haritada gösterilecek
+let moduldizi = [];
+let moduldizi1 = [];
+fetch('http://127.0.0.1:8000/items')
+.then(response => response.json())
+.then(data => {
+    data.forEach(item => {
+      moduldizi1.push(item.id);
+      moduldizi1.push(item.name);
+      moduldizi1.push(item.zone);
+      moduldizi1.push(item.enlem);
+      moduldizi1.push(item.boylam);
+      moduldizi.push(moduldizi1);
+      moduldizi1 = [];
+    });
+    console.log(typeof moduldizi[0][3]);
+})
+.catch(error => console.error('Hata:', error));
+
+

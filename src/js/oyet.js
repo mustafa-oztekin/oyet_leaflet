@@ -446,26 +446,3 @@ map.on('click', (e) => {
     });
   });
 });
-
-
-
-// modüller statik olarak olmayacak, dinamik olarak veritabanından gelecek ve haritada gösterilecek
-let moduldizi = [];
-let moduldizi1 = [];
-fetch('http://127.0.0.1:8000/items')
-.then(response => response.json())
-.then(data => {
-    data.forEach(item => {
-      moduldizi1.push(item.id);
-      moduldizi1.push(item.name);
-      moduldizi1.push(item.zone);
-      moduldizi1.push(item.enlem);
-      moduldizi1.push(item.boylam);
-      moduldizi.push(moduldizi1);
-      moduldizi1 = [];
-    });
-    console.log(typeof moduldizi[0][3]);
-})
-.catch(error => console.error('Hata:', error));
-
-

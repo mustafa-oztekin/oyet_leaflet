@@ -151,11 +151,43 @@ remove_buta.addEventListener('dblclick', function(){
     }
 });
 
-let modal;
+
+let circles = []; // Çemberlerin bilgilerini saklayacağımız bir dizi
+// modüller statik olarak olmayacak, dinamik olarak veritabanından gelecek ve haritada gösterilecek
+let moduldizi = [];
+let moduldizi1 = [];
+
+fetch('http://127.0.0.1:8000/items')
+.then(response => response.json())
+.then(data => {
+    data.forEach(item => {
+      moduldizi1.push(item.id);
+      moduldizi1.push(item.name);
+      moduldizi1.push(item.zone);
+      moduldizi1.push(item.enlem);
+      moduldizi1.push(item.boylam);
+      moduldizi.push(moduldizi1);
+      if (item.name === "C") {
+        const newCircle = L.circle([item.enlem, item.boylam], stil_c).addTo(map);
+        circles.push({ circle: newCircle, isMoving: true, name: item.name });
+      }
+      else if (item.name === "B1") {
+        const newCircle = L.circle([item.enlem, item.boylam], stil_b).addTo(map);
+        circles.push({ circle: newCircle, isMoving: true, name: item.name });
+      }
+      else {
+        const newCircle = L.circle([item.enlem, item.boylam], stil_a).addTo(map);
+        circles.push({ circle: newCircle, isMoving: true, name: item.name });
+      }
+      moduldizi1 = [];
+    });
+    //console.log(circles);
+})
+.catch(error => console.error('Hata:', error));
 
 document.addEventListener("DOMContentLoaded", function() {
   const addButton = document.getElementById("addButton");
-  modal = document.getElementById("myModal");
+  let modal = document.getElementById("myModal");
   
   addButton.addEventListener("click", function() {
     modal.style.display = "flex"; // Modalı göster
@@ -167,6 +199,21 @@ document.addEventListener("DOMContentLoaded", function() {
   let yerlestir = false;
 
 
+// Tıklamalı butonlara tıklanınca
+const moduleButtons = document.querySelectorAll(".module-button");
+moduleButtons.forEach(button => {
+  button.addEventListener("click", function() {
+    const selectedValue = button.getAttribute("data-value");
+    console.log("Seçiminiz: " + selectedValue);
+    if (selectedValue === 'A') {
+      customCircle.addTo(map);
+      yerlestir = true;
+      isMoving = true;
+      // click içindekilerin birazı buraya alınacak
+    }
+    modal.style.display = "none"; // Modalı gizle
+  });
+});
   
 map.on('mousemove', (e) => {
     if (isMoving) {
@@ -180,12 +227,7 @@ map.on('mousemove', (e) => {
 
 
 
-
-
-
-
-
-// pencereiçin deneme
+// pencere için deneme
 const pencere = document.getElementById("mypencere");
 const modulekle = document.getElementById("modul-ekle");
 const modulname = document.getElementById("modulname");
@@ -235,14 +277,15 @@ map.on('click', (e) => {
         console.log('Yeni eklenen öğe:', newItem);
   
         // Yeni eklenen öğeyi tabloya eklemek için gerekli kodları burada yazabilirsiniz
+        const newCircle = L.circle(clickedLatLng, stil_a).addTo(map);
+        circles.push({ circle: newCircle, isMoving: true, name: modulname.value }); // Yeni çemberi diziye ekle
+        pencere.style.display = "none";
   
       } catch (error) {
         console.error('Hata:', error);
       }
-        const newCircle = L.circle(clickedLatLng, stil_a).addTo(map);
-        circles.push({ circle: newCircle, isMoving: true }); // Yeni çemberi diziye ekle
-        pencere.style.display = "none";
-    } 
+      pencere.style.display = "none";
+    }
   }
 
     if (modal.style.display === "flex") {
@@ -251,18 +294,52 @@ map.on('click', (e) => {
     if (isMoving) {
       isMoving = false; } // Fare hareketini durdur
 
-       /* circles.forEach(circleInfo => {
+      // Önceki çember dinleyicilerini kaldır
+    circles.forEach(circleInfo => {
+        const circle = circleInfo.circle;
+        circle.off('click');
+    });
+
+        circles.forEach(circleInfo => {
         const circle = circleInfo.circle;
         const circleName = circleInfo.name;
-        console.log(circleName);
+        // console.log(circleName);
         circle.on('click', () => {
             console.log("Tıklanan çemberin ismi:", circleName);
             // AJAX ile çember ismini backend'e gönder veya başka işlemler yap
+            // deneme yapıyorum
+                // circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
+                const data = {modul: "M" + circleName};
+                $.ajax({
+                  url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
+                  type: "POST",
+                  contentType: "application/json",
+                  data: JSON.stringify(data),
+                  success: function(response) {
+                    console.log("İstek başarılı: ", response);
+                    // Cevap geldiğinde popup'ı açma işlemi
+                    /*
+                    if (response.success) {
+                      const popupContent = 'A4 modülü <br> Sıcaklık: ' + response.data;
+                      circle_a4_popup.setContent(popupContent);
+                      circle_a4_popup.setLatLng(circle.getLatLng());
+                      circle_a4_popup.openOn(map);
+                     // response.success = false; // Popup'ın tekrar açılmaması için
+                    }*/
+                  },
+                  error: function(xhr, status, error) {
+                    console.error("İstek hatası: ", error);
+                  }
+                });
+            //
+            //
+            //
+            //
         });
-    }); */
+    }); 
 });
 
-
+/*
   // Tıklamalı butonlara tıklanınca
   const moduleButtons = document.querySelectorAll(".module-button");
   moduleButtons.forEach(button => {
@@ -281,8 +358,11 @@ map.on('click', (e) => {
       modal.style.display = "none"; // Modalı gizle
     });
   });
+  */
 });
 
+
+/*
 let circles = []; // Çemberlerin bilgilerini saklayacağımız bir dizi
 
 // modüller statik olarak olmayacak, dinamik olarak veritabanından gelecek ve haritada gösterilecek
@@ -299,17 +379,14 @@ fetch('http://127.0.0.1:8000/items')
       moduldizi1.push(item.boylam);
       moduldizi.push(moduldizi1);
       if (item.name === "C") {
-        console.log("mustafa1");
         const newCircle = L.circle([item.enlem, item.boylam], stil_c).addTo(map);
         circles.push({ circle: newCircle, isMoving: true, name: item.name });
       }
       else if (item.name === "B1") {
-        console.log("mustafa2");
         const newCircle = L.circle([item.enlem, item.boylam], stil_b).addTo(map);
         circles.push({ circle: newCircle, isMoving: true, name: item.name });
       }
       else {
-        console.log("mustafa3");
         const newCircle = L.circle([item.enlem, item.boylam], stil_a).addTo(map);
         circles.push({ circle: newCircle, isMoving: true, name: item.name });
       }
@@ -318,7 +395,4 @@ fetch('http://127.0.0.1:8000/items')
     //console.log(circles);
 })
 .catch(error => console.error('Hata:', error));
-
-// çember tıklama deneme
-// Çemberlere tıklama olayını dinleme
-
+*/

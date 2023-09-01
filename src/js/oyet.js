@@ -87,10 +87,10 @@ var circle_a3 = L.circle(A3, stil_a).addTo(map);
 var circle_a4 = L.circle(A4, stil_a).addTo(map);
 
 
-// var a1_zoom = circle_a1.getBounds();
-// var a2_zoom = circle_a2.getBounds();
-// var a3_zoom = circle_a3.getBounds();
-// var a4_zoom = circle_a4.getBounds();
+var a1_zoom = circle_a1.getBounds();
+var a2_zoom = circle_a2.getBounds();
+var a3_zoom = circle_a3.getBounds();
+var a4_zoom = circle_a4.getBounds();
 
 
 const audioElement = document.getElementById("myAudio");
@@ -191,7 +191,7 @@ function sendRequest(name) {
 // const circle_a1_popup = L.popup();
 circle_a1.on('click', function(){
   // circle_a1.bindPopup('A1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-  const data_a1 = {modul: "MA1"};
+  const data_a1 = {modul: "MA1<>"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp",
     type: "POST",
@@ -201,7 +201,7 @@ circle_a1.on('click', function(){
       console.log("İstek başarılı: ", response);
       // Cevap geldiğinde popup'ı açma işlemi
       if (response.success) {
-        const popupContent = 'A1 modülü <br> Sıcaklık: ' + response.data;
+        const popupContent = 'A1 modülü <br> Nem: ' + response.data;
         circle_a1_popup.setContent(popupContent);
         circle_a1_popup.setLatLng(circle_a1.getLatLng());
         circle_a1_popup.openOn(map);
@@ -218,7 +218,7 @@ circle_a1.on('click', function(){
 // const circle_a2_popup = L.popup();
 circle_a2.on('click', function(){
   // circle_a2.bindPopup('A2 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-  const data_a2 = {modul: "MA2"};
+  const data_a2 = {modul: "MA2<>"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
     type: "POST",
@@ -228,7 +228,7 @@ circle_a2.on('click', function(){
       console.log("İstek başarılı: ", response);
       // Cevap geldiğinde popup'ı açma işlemi
       if (response.success) {
-        const popupContent = 'A2 modülü <br> Sıcaklık: ' + response.data;
+        const popupContent = 'A2 modülü <br> Nem: ' + response.data;
         circle_a2_popup.setContent(popupContent);
         circle_a2_popup.setLatLng(circle_a2.getLatLng());
         circle_a2_popup.openOn(map);
@@ -245,7 +245,7 @@ circle_a2.on('click', function(){
 // const circle_a3_popup = L.popup();
 circle_a3.on('click', function(){
   // circle_a3.bindPopup('A3 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-  const data_a3 = {modul: "MA3"};
+  const data_a3 = {modul: "MA3<>"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
     type: "POST",
@@ -255,7 +255,7 @@ circle_a3.on('click', function(){
       console.log("İstek başarılı: ", response);
       // Cevap geldiğinde popup'ı açma işlemi
       if (response.success) {
-        const popupContent = 'A3 modülü <br> Sıcaklık: ' + response.data;
+        const popupContent = 'A3 modülü <br> Nem: ' + response.data;
         circle_a3_popup.setContent(popupContent);
         circle_a3_popup.setLatLng(circle_a3.getLatLng());
         circle_a3_popup.openOn(map);
@@ -272,7 +272,7 @@ circle_a3.on('click', function(){
 // const circle_a4_popup = L.popup();
 circle_a4.on('click', function(){
   // circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-  const data_a4 = {modul: "MA4"};
+  const data_a4 = {modul: "MA4<>"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
     type: "POST",
@@ -282,7 +282,7 @@ circle_a4.on('click', function(){
       console.log("İstek başarılı: ", response);
       // Cevap geldiğinde popup'ı açma işlemi
       if (response.success) {
-        const popupContent = 'A4 modülü <br> Sıcaklık: ' + response.data;
+        const popupContent = 'A4 modülü <br> Nem: ' + response.data;
         circle_a4_popup.setContent(popupContent);
         circle_a4_popup.setLatLng(circle_a4.getLatLng());
         circle_a4_popup.openOn(map);

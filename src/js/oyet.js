@@ -190,7 +190,6 @@ function sendRequest(name) {
 
 // const circle_a1_popup = L.popup();
 circle_a1.on('click', function(){
-  // circle_a1.bindPopup('A1 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a1 = {modul: "MA1<>"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp",
@@ -217,7 +216,6 @@ circle_a1.on('click', function(){
 
 // const circle_a2_popup = L.popup();
 circle_a2.on('click', function(){
-  // circle_a2.bindPopup('A2 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a2 = {modul: "MA2<>"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
@@ -244,7 +242,6 @@ circle_a2.on('click', function(){
 
 // const circle_a3_popup = L.popup();
 circle_a3.on('click', function(){
-  // circle_a3.bindPopup('A3 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a3 = {modul: "MA3<>"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
@@ -271,7 +268,6 @@ circle_a3.on('click', function(){
 
 // const circle_a4_popup = L.popup();
 circle_a4.on('click', function(){
-  // circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
   const data_a4 = {modul: "MA4<>"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
@@ -370,15 +366,48 @@ remove_buta.addEventListener('dblclick', function(){
 });
 
 let modal;
+let degismodal;
 
 document.addEventListener("DOMContentLoaded", function() {
   const addButton = document.getElementById("addButton");
+  const degisbutton = document.getElementById('change');
+  const degistirbutton = document.getElementById('degistir-button');
   modal = document.getElementById("myModal");
+  degismodal = document.getElementById("mydegisim");
+  const deger = document.getElementById("deger");
   
   addButton.addEventListener("click", function() {
     modal.style.display = "flex"; // Modalı göster
   });
 
+  degisbutton.addEventListener('click', function() {
+    degismodal.style.display = "flex"; // Modalı göster
+  });
+
+  degistirbutton.addEventListener('click', updateNewEdge);
+
+  async function updateNewEdge() {
+    if (Boolean(deger.value)) {
+      console.log('Yeni sınır değer:', deger.value);
+
+      const data_degis = {modul: "c" + deger.value};
+  $.ajax({
+    url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data_degis),
+    success: function(response) {
+      console.log("İstek başarılı: ", response);
+    },
+    error: function(xhr, status, error) {
+      console.error("İstek hatası: ", error);
+    }
+  });
+      degismodal.style.display = "none";
+      deger.value = '';
+    }
+    degismodal.style.display = "none";
+  }
 
 
 
@@ -422,6 +451,9 @@ map.on('click', (e) => {
     }
     if (modal.style.display === "flex") {
       modal.style.display = "none";
+    }
+    if (degismodal.style.display === "flex") {
+      degismodal.style.display = "none";
     }
     if (isMoving) {
       isMoving = false; } // Fare hareketini durdur

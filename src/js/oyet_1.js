@@ -33,7 +33,7 @@ var googleBasemap = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={
 
 googleBasemap.addTo(map);
 
-// var C = [39.746909, 30.474223];
+var C_merkez = [39.746909, 30.474223];
  //var B1 = [39.739309, 30.483702];
 // var A1 = [39.733678, 30.481098];
 // var A2 = [39.733149, 30.486781];
@@ -59,11 +59,19 @@ stil_b.radius = 500;
 
 var stil_c = {
   color:"#c0392b",
-  fill:true,
+  fill:false,
   fillColor:"#19FFE7",
   fillOpacity:0.5
 };
-stil_c.radius = 1000;
+stil_c.radius = 1500;
+
+var stil_c_merkez = {
+    color:"#c0392b",
+    fill:true,
+    fillColor:"#19FFE7",
+    fillOpacity:0.5
+  };
+  stil_c_merkez.radius = 200;
 
 var stil2 = {
     color:"#c0392b",
@@ -73,7 +81,7 @@ var stil2 = {
 };
 stil2.radius = 300;
 
-// var circle_c = L.circle(C, stil_c).addTo(map);
+var circle_c_merkez = L.circle(C_merkez, stil_c_merkez).addTo(map);
 // var circle_b1 = L.circle(B1, stil_b).addTo(map);
 // var circle_a1 = L.circle(A1, stil_a).addTo(map);
 // var circle_a2 = L.circle(A2, stil_a).addTo(map);
@@ -85,6 +93,8 @@ stil2.radius = 300;
 // var a2_zoom = circle_a2.getBounds();
 // var a3_zoom = circle_a3.getBounds();
 // var a4_zoom = circle_a4.getBounds();
+
+const circle_popup = L.popup();
 
 
 const audioElement = document.getElementById("myAudio");
@@ -167,31 +177,99 @@ fetch('http://127.0.0.1:8000/items')
       moduldizi1.push(item.enlem);
       moduldizi1.push(item.boylam);
       moduldizi.push(moduldizi1);
-      if (item.name === "C") {
+      if (item.name[0] === "C") {
         const newCircle = L.circle([item.enlem, item.boylam], stil_c).addTo(map);
         circles.push({ circle: newCircle, isMoving: true, name: item.name });
       }
-      else if (item.name === "B1") {
+      else if (item.name[0] === "B") {
         const newCircle = L.circle([item.enlem, item.boylam], stil_b).addTo(map);
         circles.push({ circle: newCircle, isMoving: true, name: item.name });
       }
-      else {
+      else if (item.name[0] === "A") {
         const newCircle = L.circle([item.enlem, item.boylam], stil_a).addTo(map);
         circles.push({ circle: newCircle, isMoving: true, name: item.name });
       }
       moduldizi1 = [];
     });
-    //console.log(circles);
 })
 .catch(error => console.error('Hata:', error));
 
+
+/* sse endpointi ekleme denemesi yapıyorum 14 eylül perşembe evde */
+
+const eventSource = new EventSource("http://127.0.0.1:8000/sse");//FastAPI SSE endpointinizin URL'si
+// burayı etkinleştirr**********************
+eventSource.onmessage = function(event) {
+  console.log("Gelen veri:", event.data);
+  circles.forEach(circleInfo => {
+        const circle = circleInfo.circle;
+        const circleName = circleInfo.name;
+    if (event.data === circleName) {
+        //console.log(circleName, circle);
+        audioElement.play();
+        map.fitBounds(circle.getBounds());
+        circle.setStyle(stil2);
+        setTimeout(() => {circle.setStyle(stil_a);}, 500);
+    }
+    //console.log(circleInfo.name);
+}); /*
+  if (event.data === 'A1') {
+    audioElement.play();
+    map.fitBounds(a1_zoom);
+    circle_a1.setStyle(stil2);
+    setTimeout(() => {circle_a1.setStyle(stil_a);}, 500);
+  } */
+};
+
+
+
+
+
+
+
+let modal;
+let degismodal;
+
 document.addEventListener("DOMContentLoaded", function() {
-  const addButton = document.getElementById("addButton");
-  let modal = document.getElementById("myModal");
+    const addButton = document.getElementById("addButton");
+    const degisbutton = document.getElementById('change');
+    const degistirbutton = document.getElementById('degistir-button');
+    modal = document.getElementById("myModal");
+    degismodal = document.getElementById("mydegisim");
+    const deger = document.getElementById("deger");
   
   addButton.addEventListener("click", function() {
     modal.style.display = "flex"; // Modalı göster
   });
+
+  degisbutton.addEventListener('click', function() {
+    degismodal.style.display = "flex"; // Modalı göster
+  });
+
+  degistirbutton.addEventListener('click', updateNewEdge);
+
+  async function updateNewEdge() {
+    if (Boolean(deger.value)) {
+      console.log('Yeni sınır değer:', deger.value);
+
+      const data_degis = {modul: "c" + deger.value};
+  $.ajax({
+    url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data_degis),
+    success: function(response) {
+      console.log("İstek başarılı: ", response);
+    },
+    error: function(xhr, status, error) {
+      console.error("İstek hatası: ", error);
+    }
+  });
+      degismodal.style.display = "none";
+      deger.value = '';
+    }
+    degismodal.style.display = "none";
+  }
 
   const customCircle = L.circle([39.738678, 30.488098], stil_a);
 
@@ -235,29 +313,16 @@ const modulzone = document.getElementById("modulzone");
 const enlem = document.getElementById("enlem");
 const boylam = document.getElementById("boylam");
 
-
-// let circles = []; // Çemberlerin bilgilerini saklayacağımız bir dizi
-
-map.on('click', (e) => {
-  if (yerlestir) {
-    const clickedLatLng = e.latlng;
-    customCircle.removeFrom(map);
-    yerlestir = false;
-    // deneme yapıyorum
-    pencere.style.display = "block";
-    enlem.textContent = e.latlng.lat.toFixed(6);
-    boylam.textContent = e.latlng.lng.toFixed(6);
-
-
-    modulekle.addEventListener('click', addNewItem);
+/* veritabanına yeni bir modül kaydediyorum */
+modulekle.addEventListener('click', addNewItem);
 
     async function addNewItem() {
       const data = {
         "id":15,
         "name": modulname.value,
         "zone": modulzone.value,
-        "enlem": e.latlng.lat.toFixed(6),
-        "boylam": e.latlng.lng.toFixed(6)
+        "enlem": clickedLatLng.lat.toFixed(6),
+        "boylam": clickedLatLng.lng.toFixed(6)
       };
   
       try {
@@ -286,10 +351,24 @@ map.on('click', (e) => {
       }
       pencere.style.display = "none";
     }
+
+let clickedLatLng; 
+map.on('click', (e) => {
+  if (yerlestir) {
+    clickedLatLng = e.latlng;
+    customCircle.removeFrom(map);
+    yerlestir = false;
+    // deneme yapıyorum
+    pencere.style.display = "block";
+    enlem.textContent = clickedLatLng.lat.toFixed(6);
+    boylam.textContent = clickedLatLng.lng.toFixed(6);
   }
 
     if (modal.style.display === "flex") {
       modal.style.display = "none";
+    }
+    if (degismodal.style.display === "flex") {
+        degismodal.style.display = "none";
     }
     if (isMoving) {
       isMoving = false; } // Fare hareketini durdur
@@ -303,96 +382,36 @@ map.on('click', (e) => {
         circles.forEach(circleInfo => {
         const circle = circleInfo.circle;
         const circleName = circleInfo.name;
-        // console.log(circleName);
         circle.on('click', () => {
             console.log("Tıklanan çemberin ismi:", circleName);
             // AJAX ile çember ismini backend'e gönder veya başka işlemler yap
             // deneme yapıyorum
-                // circle_a4.bindPopup('A4 modülü <br> Sıcaklık: ' + randomNumber(), closeOnClick = true).openPopup();
-                const data = {modul: "M" + circleName};
+                const data = {modul: "M" + circleName + "<>"};
                 $.ajax({
                   url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
                   type: "POST",
                   contentType: "application/json",
                   data: JSON.stringify(data),
+                  
                   success: function(response) {
                     console.log("İstek başarılı: ", response);
                     // Cevap geldiğinde popup'ı açma işlemi
-                    /*
+                    let array = response.data.split("<>");
                     if (response.success) {
-                      const popupContent = 'A4 modülü <br> Sıcaklık: ' + response.data;
-                      circle_a4_popup.setContent(popupContent);
-                      circle_a4_popup.setLatLng(circle.getLatLng());
-                      circle_a4_popup.openOn(map);
+                      const popupContent = circleName.fontsize(4) + '<br>Nem: ' + array[0].fontsize(4) + '<br>Sıcaklık: ' + array[1].fontsize(4);
+                      circle_popup.setContent(popupContent);
+                      circle_popup.setLatLng(circle.getLatLng());
+                      circle_popup.openOn(map);
                      // response.success = false; // Popup'ın tekrar açılmaması için
-                    }*/
+                    } 
                   },
+                  
                   error: function(xhr, status, error) {
                     console.error("İstek hatası: ", error);
                   }
-                });
-            //
-            //
-            //
-            //
+                  
+            });
         });
-    }); 
-});
-
-/*
-  // Tıklamalı butonlara tıklanınca
-  const moduleButtons = document.querySelectorAll(".module-button");
-  moduleButtons.forEach(button => {
-    button.addEventListener("click", function() {
-      const selectedValue = button.getAttribute("data-value");
-      console.log("Seçiminiz: " + selectedValue);
-      if (selectedValue === 'A') {
-        // customCircle = L.circle([39.738678, 30.488098], stil_a).addTo(map);
-        customCircle.addTo(map);
-        yerlestir = true;
-        isMoving = true;
-
-        // click içindekilerin birazı buraya alınacak
-
-      }
-      modal.style.display = "none"; // Modalı gizle
     });
-  });
-  */
 });
-
-
-/*
-let circles = []; // Çemberlerin bilgilerini saklayacağımız bir dizi
-
-// modüller statik olarak olmayacak, dinamik olarak veritabanından gelecek ve haritada gösterilecek
-let moduldizi = [];
-let moduldizi1 = [];
-fetch('http://127.0.0.1:8000/items')
-.then(response => response.json())
-.then(data => {
-    data.forEach(item => {
-      moduldizi1.push(item.id);
-      moduldizi1.push(item.name);
-      moduldizi1.push(item.zone);
-      moduldizi1.push(item.enlem);
-      moduldizi1.push(item.boylam);
-      moduldizi.push(moduldizi1);
-      if (item.name === "C") {
-        const newCircle = L.circle([item.enlem, item.boylam], stil_c).addTo(map);
-        circles.push({ circle: newCircle, isMoving: true, name: item.name });
-      }
-      else if (item.name === "B1") {
-        const newCircle = L.circle([item.enlem, item.boylam], stil_b).addTo(map);
-        circles.push({ circle: newCircle, isMoving: true, name: item.name });
-      }
-      else {
-        const newCircle = L.circle([item.enlem, item.boylam], stil_a).addTo(map);
-        circles.push({ circle: newCircle, isMoving: true, name: item.name });
-      }
-      moduldizi1 = [];
-    });
-    //console.log(circles);
-})
-.catch(error => console.error('Hata:', error));
-*/
+});

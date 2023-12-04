@@ -224,6 +224,46 @@ eventSource.onmessage = function(event) {
 
 
 
+// 100 defa test
+let sayac = 0;
+let sayac1 = 0;
+let maxIslemSayisi = 100;
+let interval;
+
+function sendRequest() {
+  if (sayac < maxIslemSayisi) {
+    $.ajax({
+      url: "http://127.0.0.1:8000/tcp",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({durum: "Sorgu", id: "X", type: "X", len: "X", data: "X", say: "0"}),
+      success: function(response) {
+        sayac1++;
+        console.log("İstek başarılı: ", response);
+        if (response.success) {
+          sayac++;
+        }
+        if (sayac1 === maxIslemSayisi) {
+          console.log("Toplam başarılı işlem sayısı: ", sayac);
+          clearInterval(interval); // İşlem tamamlandığında interval'i durdur
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error("İstek hatası: ", error);
+        sayac++;
+      }
+    });
+  }
+}
+
+//interval = setInterval(function() {
+//  sendRequest();
+//}, 10000);
+
+// İşlemi başlat
+//setTimeout(function() {
+//  sendRequest();
+//}, 0); // Başlangıçta 0 saniyelik bekleme
 
 
 
@@ -252,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (Boolean(deger.value)) {
       console.log('Yeni sınır değer:', deger.value);
 
-      const data_degis = {modul: "c" + deger.value};
+      const data_degis = {durum: "Limit", id: "B1", type: "X", len: deger.value.length, data: deger.value, say: "X"};
   $.ajax({
     url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
     type: "POST",
@@ -383,10 +423,15 @@ map.on('click', (e) => {
         const circle = circleInfo.circle;
         const circleName = circleInfo.name;
         circle.on('click', () => {
-            console.log("Tıklanan çemberin ismi:", circleName);
+            console.log("Circle Name:", circleName);
+            if(circleName[0] === "A") {
+              var data = {durum: "Sorgu", idA: circleName, idB: "X", type: "X", len: "X", data: "X", say: "1"};
+            }
+            else if(circleName[0] === "B") {
+              var data = {durum: "Toplu", idA: "X", idB: circleName, type: "X", len: "X", data: "X", say: "1"};
+            }
             // AJAX ile çember ismini backend'e gönder veya başka işlemler yap
             // deneme yapıyorum
-                const data = {modul: "M" + circleName + "<>"};
                 $.ajax({
                   url: "http://127.0.0.1:8000/tcp", // Endpoint URL'sini buraya ekleyin
                   type: "POST",
@@ -396,9 +441,9 @@ map.on('click', (e) => {
                   success: function(response) {
                     console.log("İstek başarılı: ", response);
                     // Cevap geldiğinde popup'ı açma işlemi
-                    let array = response.data.split("<>");
+                    let array = response.data.split("|");
                     if (response.success) {
-                      const popupContent = circleName.fontsize(4) + '<br>Nem: ' + array[0].fontsize(4) + '<br>Sıcaklık: ' + array[1].fontsize(4);
+                      const popupContent = circleName.fontsize(4) + '<br>Ara İst.: ' + array[2].fontsize(4) + '<br>Nem: ' + array[5].fontsize(4);
                       circle_popup.setContent(popupContent);
                       circle_popup.setLatLng(circle.getLatLng());
                       circle_popup.openOn(map);
